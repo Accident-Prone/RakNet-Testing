@@ -1,0 +1,137 @@
+﻿  Base64Encoder.cpp
+  BitStream.cpp
+  CCRakNetSlidingWindow.cpp
+  CCRakNetUDT.cpp
+  CheckSum.cpp
+  CloudClient.cpp
+  CloudCommon.cpp
+  CloudServer.cpp
+  CommandParserInterface.cpp
+  ConnectionGraph2.cpp
+  ConsoleServer.cpp
+  DataCompressor.cpp
+  DirectoryDeltaTransfer.cpp
+  DR_SHA1.cpp
+  DS_BytePool.cpp
+  DS_ByteQueue.cpp
+  DS_HuffmanEncodingTree.cpp
+  DS_Table.cpp
+  DynDNS.cpp
+  EmailSender.cpp
+  Generating Code...
+  Compiling...
+  EpochTimeToString.cpp
+  FileList.cpp
+  FileListTransfer.cpp
+  FileOperations.cpp
+  FormatString.cpp
+  FullyConnectedMesh2.cpp
+  Getche.cpp
+  Gets.cpp
+  GetTime.cpp
+  gettimeofday.cpp
+  GridSectorizer.cpp
+  HTTPConnection.cpp
+  HTTPConnection2.cpp
+  IncrementalReadInterface.cpp
+  Itoa.cpp
+  LinuxStrings.cpp
+  LocklessTypes.cpp
+  LogCommandParser.cpp
+  MessageFilter.cpp
+  NatPunchthroughClient.cpp
+  Generating Code...
+  Compiling...
+  NatPunchthroughServer.cpp
+D:\RakNet\RakNet-master\Source\NatPunchthroughServer.cpp(246,21): warning C4018: '<': signed/unsigned mismatch
+  NatTypeDetectionClient.cpp
+  NatTypeDetectionCommon.cpp
+  NatTypeDetectionServer.cpp
+  NetworkIDManager.cpp
+  NetworkIDObject.cpp
+  PacketConsoleLogger.cpp
+  PacketFileLogger.cpp
+  PacketizedTCP.cpp
+  PacketLogger.cpp
+  PacketOutputWindowLogger.cpp
+  PluginInterface2.cpp
+  PS4Includes.cpp
+  Rackspace.cpp
+  RakMemoryOverride.cpp
+  RakNetCommandParser.cpp
+  RakNetSocket.cpp
+  RakNetSocket2.cpp
+  RakNetSocket2_360_720.cpp
+  RakNetSocket2_Berkley.cpp
+  Generating Code...
+  Compiling...
+  RakNetSocket2_Berkley_NativeClient.cpp
+  RakNetSocket2_NativeClient.cpp
+  RakNetSocket2_PS3_PS4.cpp
+  RakNetSocket2_PS4.cpp
+  RakNetSocket2_Vita.cpp
+  RakNetSocket2_WindowsStore8.cpp
+  RakNetSocket2_Windows_Linux.cpp
+  RakNetSocket2_Windows_Linux_360.cpp
+  RakNetStatistics.cpp
+  RakNetTransport2.cpp
+  RakNetTypes.cpp
+  RakPeer.cpp
+D:\RakNet\RakNet-master\Source\RakPeer.cpp(429,13): warning C4018: '<': signed/unsigned mismatch
+D:\RakNet\RakNet-master\Source\RakPeer.cpp(577,13): warning C4018: '<': signed/unsigned mismatch
+D:\RakNet\RakNet-master\Source\RakPeer.cpp(622,18): warning C4018: '<': signed/unsigned mismatch
+D:\RakNet\RakNet-master\Source\RakPeer.cpp(728,14): warning C4018: '<': signed/unsigned mismatch
+D:\RakNet\RakNet-master\Source\RakPeer.cpp(733,14): warning C4018: '<': signed/unsigned mismatch
+  RakSleep.cpp
+  RakString.cpp
+  RakThread.cpp
+  RakWString.cpp
+  Rand.cpp
+  RandSync.cpp
+  ReadyEvent.cpp
+  RelayPlugin.cpp
+  Generating Code...
+  Compiling...
+  ReliabilityLayer.cpp
+  ReplicaManager3.cpp
+  Router2.cpp
+  RPC4Plugin.cpp
+  SecureHandshake.cpp
+  SendToThread.cpp
+  SignaledEvent.cpp
+  SimpleMutex.cpp
+  SocketLayer.cpp
+D:\RakNet\RakNet-master\Source\SocketLayer.cpp(170,25): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'LPVOID'
+D:\RakNet\RakNet-master\Source\SocketLayer.cpp(371,24): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'LPVOID'
+D:\RakNet\RakNet-master\Source\SocketLayer.cpp(413,24): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'LPVOID'
+D:\RakNet\RakNet-master\Source\SocketLayer.cpp(490,24): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'LPVOID'
+  StatisticsHistory.cpp
+  StringCompressor.cpp
+  StringTable.cpp
+  SuperFastHash.cpp
+  TableSerializer.cpp
+  TCPInterface.cpp
+  TeamBalancer.cpp
+  TeamManager.cpp
+  TelnetTransport.cpp
+  ThreadsafePacketLogger.cpp
+  TwoWayAuthentication.cpp
+  Generating Code...
+  Compiling...
+  UDPForwarder.cpp
+D:\RakNet\RakNet-master\Source\UDPForwarder.cpp(235,25): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'LPVOID'
+  UDPProxyClient.cpp
+  UDPProxyCoordinator.cpp
+  UDPProxyServer.cpp
+  VariableDeltaSerializer.cpp
+  VariableListDeltaTracker.cpp
+  VariadicSQLParser.cpp
+  VitaIncludes.cpp
+  WSAStartupSingleton.cpp
+D:\RakNet\RakNet-master\Source\WSAStartupSingleton.cpp(56,24): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 2 has type 'LPVOID'
+  _FindFirst.cpp
+  main.cpp
+  Generating Code...
+     Creating library D:\ChatServer\Debug\ChatServer.lib and object D:\ChatServer\Debug\ChatServer.exp
+DR_SHA1.obj : error LNK2019: unresolved external symbol __CrtDbgReport referenced in function "void * __cdecl std::_Allocate_manually_vector_aligned<struct std::_Default_allocate_traits>(unsigned int)" (??$_Allocate_manually_vector_aligned@U_Default_allocate_traits@std@@@std@@YAPAXI@Z)
+D:\ChatServer\Debug\ChatServer.exe : fatal error LNK1120: 1 unresolved externals

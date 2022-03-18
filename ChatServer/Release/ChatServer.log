@@ -1,0 +1,9 @@
+﻿  main.cpp
+D:\ChatServer\ChatServer\main.cpp(18,17): warning C4101: 'str1': unreferenced local variable
+     Creating library D:\ChatServer\Release\ChatServer.lib and object D:\ChatServer\Release\ChatServer.exp
+  Generating code
+  1 of 5797 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    7 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  ChatServer.vcxproj -> D:\ChatServer\Release\ChatServer.exe
