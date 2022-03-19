@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include "RakPeerInterface.h"
+#include <RakPeerInterface.h>
 #include <string.h>
-#include "MessageIdentifiers.h"
-#include "BitStream.h"
-#include "RakNetTypes.h"
+#include <MessageIdentifiers.h>
+#include <BitStream.h>
+#include <RakNetTypes.h>
 
 #define MAX_CLIENTS 10
 #define SERVER_PORT 60000

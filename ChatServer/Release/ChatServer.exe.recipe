@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\ChatServer\Release\ChatServer.exe</FullPath>
+      <FullPath>D:\GitHub Repos\RakNet-Testing\Release\ChatServer.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
