@@ -53,7 +53,9 @@ int main(void)
 			strcpy(str, "127.0.0.1");
 
 		}
-		printf("Starting the client...\n");
+		printf("Starting the client...\n Connection will commence after giving a message to send.\n");
+		printf("Message to send:\n");
+		fgets(str1, sizeof str1, stdin);
 		peer->Connect(str, SERVER_PORT, 0, 0);
 	}
 	while (1)
@@ -79,6 +81,10 @@ int main(void)
 					RakNet::BitStream bsOut;
 					bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
 					bsOut.Write("Hello world");
+					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
+					bsOut.Reset();
+					bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
+					bsOut.Write(str1);
 					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 				}
 				break;
@@ -115,6 +121,7 @@ int main(void)
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 					bsIn.Read(rs);
 					printf("%s\n", rs.C_String());
+					//bsIn.Reset();
 				}
 				break;
 			default:
