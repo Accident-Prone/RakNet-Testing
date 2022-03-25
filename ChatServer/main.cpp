@@ -6,6 +6,9 @@
 #include <MessageIdentifiers.h>
 #include <BitStream.h>
 #include <RakNetTypes.h>
+#include <Kbhit.h>
+#include <RakSleep.h>
+#include <Gets.h>
 
 using namespace std;
 
@@ -16,6 +19,8 @@ enum GameMessages
 {
 	ID_GAME_MESSAGE_1=ID_USER_PACKET_ENUM+1
 };
+
+unsigned char GetPacketIdentifier(RakNet::Packet* p);
 
 int main(void)
 {
@@ -63,27 +68,45 @@ int main(void)
 		}
 		printf("Starting the client...\n"); //Connection will commence after giving a message to send.\n");
 		//printf("Message to send:\n");
-		peer->Connect(str, SERVER_PORT, 0, 0);
+		bool b = peer->Connect(str, SERVER_PORT, 0, 0);
+		if (b)
+		{
+			printf("failed...");
+		}
 		//fgets(str1, sizeof str1, stdin);
 	}
 	char* nameChar;
 	nameChar = &name[0];
+	char message[512];
 	while (1)
 	{
-		for (packet = peer->Receive();packet;peer->DeallocatePacket(packet), packet = peer->Receive())
+		if (isServer)
 		{
-			switch (packet->data[0])
+			RakSleep(30);
+			if (kbhit())
 			{
-			case ID_REMOTE_DISCONNECTION_NOTIFICATION:
-				printf("Another client has disconnected\n");
-				break;
-			case ID_REMOTE_CONNECTION_LOST:
-				printf("Another client has lost the connection\n");
-				break;
-			case ID_REMOTE_NEW_INCOMING_CONNECTION:
-				printf("Another client has connected\n");
-				break;
-			case ID_CONNECTION_REQUEST_ACCEPTED:
+				printf("Server: ");
+				.
+				fgets(str1, sizeof str1, stdin);
+				char message[sizeof(str1) + sizeof("Server: ")];
+				strcpy(message, "Server: ");
+				strcat(message, str1);
+				peer->Send(message, (int)strlen(message) + 1, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+			}
+			for (packet = peer->Receive();packet;peer->DeallocatePacket(packet), packet = peer->Receive())
+			{
+				switch (GetPacketIdentifier(packet))
+				{
+				case ID_REMOTE_DISCONNECTION_NOTIFICATION:
+					printf("Another client has disconnected\n");
+					break;
+				case ID_REMOTE_CONNECTION_LOST:
+					printf("Another client has lost the connection\n");
+					break;
+				case ID_REMOTE_NEW_INCOMING_CONNECTION:
+					printf("Another client has connected\n");
+					break;
+				case ID_CONNECTION_REQUEST_ACCEPTED:
 				{
 					printf("Our connection request has been accepted\n");
 					// Use a BitStream to write a custom message
@@ -93,38 +116,35 @@ int main(void)
 					bsOut.Write("Hello world");
 					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 					bsOut.Reset();
-					bsOut.Write((RakNet::MessageID)ID_GAME_MESSAGE_1);
-					bsOut.Write(str1);
-					peer->Send(&bsOut, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);
 				}
 				break;
-			case ID_NEW_INCOMING_CONNECTION:
-				printf("A connection is incoming\n");
-				break;
-			case ID_NO_FREE_INCOMING_CONNECTIONS:
-				printf("The server is full\n");
-				break;
-			case ID_DISCONNECTION_NOTIFICATION:
-				if (isServer)
-				{
-					printf("A client has disconnected\n");
-				}
-				else
-				{
-					printf("We have been disconnected\n");
-				}
-				break;
-			case ID_CONNECTION_LOST:
-				if (isServer)
-				{
-					printf("A client lost the connection\n");
-				}
-				else
-				{
-					printf("Connection lost\n");
-				}
-				break;
-			case ID_GAME_MESSAGE_1:
+				case ID_NEW_INCOMING_CONNECTION:
+					printf("A connection is incoming\n");
+					break;
+				case ID_NO_FREE_INCOMING_CONNECTIONS:
+					printf("The server is full\n");
+					break;
+				case ID_DISCONNECTION_NOTIFICATION:
+					if (isServer)
+					{
+						printf("A client has disconnected\n");
+					}
+					else
+					{
+						printf("We have been disconnected\n");
+					}
+					break;
+				case ID_CONNECTION_LOST:
+					if (isServer)
+					{
+						printf("A client lost the connection\n");
+					}
+					else
+					{
+						printf("Connection lost\n");
+					}
+					break;
+				case ID_GAME_MESSAGE_1:
 				{
 					RakNet::RakString rs;
 					RakNet::BitStream bsIn(packet->data, packet->length, false);
@@ -133,20 +153,88 @@ int main(void)
 					//bsIn.Reset();
 				}
 				break;
-			default:
-				//printf("Message with identifier %i has arrived\n", packet->data[0]);
-				printf("%s\n", packet->data);
-				break;
+				default:
+					//printf("Message with identifier %i has arrived\n", packet->data[0]);
+					printf("%s", packet->data);
+
+					sprintf(message, "%s", packet->data);
+					peer->Send(message, (const int)strlen(message) + 1, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+					break;
+				}
 			}
 		}
-		if (!isServer) 
+		else
 		{
-			printf("Message to send:\n");
-			fgets(str1, sizeof str1, stdin);
-			char message[sizeof(str1) + sizeof(nameChar)];
-			strcpy(message, nameChar);
-			strcat(message, str1);
-			peer->Send(message, (int)strlen(message) + 1, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+			Sleep(30);
+			if (kbhit())
+			{
+				printf("Message to send:\n");
+				fgets(str1, sizeof str1, stdin);
+				char message[sizeof(str1) + sizeof(nameChar)];
+				strcpy(message, nameChar);
+				strcat(message, str1);
+				peer->Send(message, (int)strlen(message) + 1, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
+			}
+			for (packet = peer->Receive();packet;peer->DeallocatePacket(packet), packet = peer->Receive())
+			{
+				switch (GetPacketIdentifier(packet))
+				{
+				case ID_REMOTE_DISCONNECTION_NOTIFICATION:
+					printf("Another client has disconnected\n");
+					break;
+				case ID_REMOTE_CONNECTION_LOST:
+					printf("Another client has lost the connection\n");
+					break;
+				case ID_REMOTE_NEW_INCOMING_CONNECTION:
+					printf("Another client has connected\n");
+					break;
+				case ID_CONNECTION_REQUEST_ACCEPTED:
+				{
+					printf("Our connection request has been accepted\n");
+					// Use a BitStream to write a custom message
+					// Bitstreams are easier to use than sending casted structures, and handle endian swapping automatically
+					printf("My ping to the server is %s:\n", packet->systemAddress.ToString(true));
+				}
+				break;
+				case ID_NEW_INCOMING_CONNECTION:
+					printf("A connection is incoming\n");
+					break;
+				case ID_NO_FREE_INCOMING_CONNECTIONS:
+					printf("The server is full\n");
+					break;
+				case ID_DISCONNECTION_NOTIFICATION:
+					if (isServer)
+					{
+						printf("A client has disconnected\n");
+					}
+					else
+					{
+						printf("We have been disconnected\n");
+					}
+					break;
+				case ID_CONNECTION_LOST:
+					if (isServer)
+					{
+						printf("A client lost the connection\n");
+					}
+					else
+					{
+						printf("Connection lost\n");
+					}
+					break;
+				case ID_GAME_MESSAGE_1:
+				{
+					RakNet::RakString rs;
+					RakNet::BitStream bsIn(packet->data, packet->length, false);
+					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
+					bsIn.Read(rs);
+					//bsIn.Reset();
+				}
+				default:
+					printf("%s\n", packet->data);
+					break;
+				}
+			}
 		}
 	}
 
@@ -154,4 +242,17 @@ int main(void)
 
 	return 0;
 
+}
+unsigned char GetPacketIdentifier(RakNet::Packet* p)
+{
+	if (p == 0)
+		return 255;
+
+	if ((unsigned char)p->data[0] == ID_TIMESTAMP)
+	{
+		RakAssert(p->length > sizeof(RakNet::MessageID) + sizeof(RakNet::Time));
+		return (unsigned char)p->data[sizeof(RakNet::MessageID) + sizeof(RakNet::Time)];
+	}
+	else
+		return (unsigned char)p->data[0];
 }
