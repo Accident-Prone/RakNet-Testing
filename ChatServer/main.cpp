@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <RakPeerInterface.h>
 #include <string.h>
+#include <string>
+#include <iostream>
 #include <MessageIdentifiers.h>
 #include <BitStream.h>
 #include <RakNetTypes.h>
+
+using namespace std;
 
 #define MAX_CLIENTS 10
 #define SERVER_PORT 60000
@@ -16,6 +20,7 @@ enum GameMessages
 int main(void)
 {
 	char str[512], str1[512];
+	std::string name;
 	RakNet::RakPeerInterface* peer = RakNet::RakPeerInterface::GetInstance();
 	bool isServer;
 	RakNet::Packet* packet;
@@ -46,6 +51,9 @@ int main(void)
 	}
 	else
 	{
+		printf("Username: ");	
+		cin >> name;
+		name.append(": ");
 		printf("Enter server IP or hit enter for 127.0.0.1 (this computer)\n");
 		fgets(str, sizeof str, stdin);
 		if (str[0] == '\n')
@@ -53,11 +61,13 @@ int main(void)
 			strcpy(str, "127.0.0.1");
 
 		}
-		printf("Starting the client...\n Connection will commence after giving a message to send.\n");
-		printf("Message to send:\n");
-		fgets(str1, sizeof str1, stdin);
+		printf("Starting the client...\n"); //Connection will commence after giving a message to send.\n");
+		//printf("Message to send:\n");
 		peer->Connect(str, SERVER_PORT, 0, 0);
+		//fgets(str1, sizeof str1, stdin);
 	}
+	char* nameChar;
+	nameChar = &name[0];
 	while (1)
 	{
 		for (packet = peer->Receive();packet;peer->DeallocatePacket(packet), packet = peer->Receive())
@@ -120,14 +130,23 @@ int main(void)
 					RakNet::BitStream bsIn(packet->data, packet->length, false);
 					bsIn.IgnoreBytes(sizeof(RakNet::MessageID));
 					bsIn.Read(rs);
-					printf("%s\n", rs.C_String());
 					//bsIn.Reset();
 				}
 				break;
 			default:
-				printf("Message with identifier %i has arrived\n", packet->data[0]);
+				//printf("Message with identifier %i has arrived\n", packet->data[0]);
+				printf("%s\n", packet->data);
 				break;
 			}
+		}
+		if (!isServer) 
+		{
+			printf("Message to send:\n");
+			fgets(str1, sizeof str1, stdin);
+			char message[sizeof(str1) + sizeof(nameChar)];
+			strcpy(message, nameChar);
+			strcat(message, str1);
+			peer->Send(message, (int)strlen(message) + 1, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true);
 		}
 	}
 
