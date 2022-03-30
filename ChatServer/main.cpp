@@ -24,7 +24,7 @@ unsigned char GetPacketIdentifier(RakNet::Packet* p);
 
 int main(void)
 {
-	char str[512], str1[512];
+	char str[512], str1[512], serverIP[128];
 	std::string name;
 	RakNet::RakPeerInterface* peer = RakNet::RakPeerInterface::GetInstance();
 	bool isServer;
@@ -60,15 +60,16 @@ int main(void)
 		cin >> name;
 		name.append(": ");
 		printf("Enter server IP or hit enter for 127.0.0.1 (this computer)\n");
-		fgets(str, sizeof str, stdin);
-		if (str[0] == '\n')
+		//fgets(serverIP, sizeof serverIP, stdin);
+		cin >> serverIP;
+		if (serverIP[0] == '\n')
 		{
-			strcpy(str, "127.0.0.1");
+			strcpy(serverIP, "127.0.0.1");
 
 		}
 		printf("Starting the client...\n"); //Connection will commence after giving a message to send.\n");
 		//printf("Message to send:\n");
-		bool b = peer->Connect(str, SERVER_PORT, 0, 0);
+		bool b = peer->Connect(serverIP, SERVER_PORT, 0, 0);
 		if (b)
 		{
 			printf("failed...");
@@ -86,7 +87,7 @@ int main(void)
 			if (kbhit())
 			{
 				printf("Server: ");
-				.
+				
 				fgets(str1, sizeof str1, stdin);
 				char message[sizeof(str1) + sizeof("Server: ")];
 				strcpy(message, "Server: ");
